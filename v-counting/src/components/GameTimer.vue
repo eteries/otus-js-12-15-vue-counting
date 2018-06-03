@@ -8,11 +8,12 @@
 export default {
   name: 'GameTimer',
   props: {
-    go: Boolean
+    go: Boolean,
+    time: Number
   },
   data () {
     return {
-      m: 2,
+      m: this.time,
       timer: '00:00'
     }
   },
@@ -28,7 +29,7 @@ export default {
 
         if (elapsedTime < 0) {
           this.stop(t);
-          this.$emit('time is up');
+          this.$emit('timeIsUp');
         }
 
         if (!this.go) {

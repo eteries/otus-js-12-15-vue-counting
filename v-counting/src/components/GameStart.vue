@@ -1,10 +1,10 @@
 <template>
   <div class="start">
     <h1>{{ title }}</h1>
-    <game-stats></game-stats>
-    <game-settings></game-settings>
+    <game-stats :stats="stats"></game-stats>
+    <game-settings @change="updateForm"></game-settings>
     <div class="align-right">
-      <button @click="$emit('start')">Play</button>
+      <button @click="startGame(settings)">Play</button>
     </div>
   </div>
 </template>
@@ -18,9 +18,36 @@ export default {
   components: {
     GameStats, GameSettings
   },
+  props: ['stats'],
   data () {
     return {
-      title: 'Привет!'
+      title: 'Привет!',
+      settings: {}
+    }
+  },
+  methods: {
+    updateForm (form) {
+      this.settings = form;
+    },
+    startGame (settings) {
+      const game = this.createGame(settings);
+      this.$emit('created', game)
+    },
+    createGame (settings) {
+      // ToDo: Create Game based on settings, for now it's hardcoded
+      return {
+        size: 2,
+        result: 4199,
+        operator: '*',
+        questions: [
+          { value: 13, userValue: '' },
+          { value: 17, userValue: '' },
+          { value: 19, userValue: '' }
+        ],
+        help: 1,
+        time: settings.time,
+        stats: this.stats
+      }
     }
   }
 }

@@ -1,8 +1,11 @@
 <template>
   <div class="game">
     <div class="game-top">
-        <button @click="$emit('cancel')">Cancel</button>
-        <game-timer :go="gameIsOn"></game-timer>
+        <button @click="$emit('cancel', calcStats(game.stats))">Cancel</button>
+        <game-timer :go="gameIsOn"
+                    :time="game.time"
+                    @timeIsUp="finish">
+        </game-timer>
     </div>
     <div class="task">
       <div class="fields">
@@ -63,7 +66,6 @@ export default {
     },
     printNumber (n) {
       const input = this.$refs.inputs[this.currentId];
-
       input.value = (input.value.length < input.maxLength) ? input.value + n : input.value;
       this.game.questions[this.currentId].userValue = input.value;
     },
@@ -74,17 +76,20 @@ export default {
       }
     },
     goPrevious () {
-      if (this.currentId-- > 0) {
-        this.edit(this.currentId);
-        this.$refs.inputs[this.currentId].focus();
-      }
+      this.currentId = this.$refs.inputs[this.currentId].value ? this.currentId : --this.currentId;
+      this.currentId = (this.currentId > 0) ? this.currentId : 0;
+      this.edit(this.currentId);
+      this.$refs.inputs[this.currentId].focus();
     },
     edit (id) {
       this.currentId = id;
       this.game.questions[this.currentId].userValue = '';
     },
     getHelp () {
-      if (!this.game.help) return;
+      if (!this.game.help) {
+        console.info('Подсказок больше нет!');
+        return;
+      }
 
       const input = this.$refs.inputs[this.currentId];
       input.value = this.game.questions[this.currentId].value;
@@ -93,8 +98,22 @@ export default {
     },
     finish () {
       this.gameIsOn = false;
-      this.$emit('cancel');
-      console.log('game is over');
+      this.success = this.getResult() === this.game.result;
+      this.success ? alert('Победа!') : alert('Повезёт в другой раз!');
+      this.$emit('cancel', this.calcStats(this.game.stats));
+    },
+    getResult () {
+      return this.game.questions.reduce((prev, cur) => {
+        return prev * +cur.userValue;
+      }, 1);
+    },
+    calcStats (prevStats) {
+      return {
+        day: ++prevStats.day,
+        solvedCount: this.success ? ++prevStats.solvedCount : prevStats.solvedCount,
+        total: ++prevStats.total,
+        precision: prevStats.solvedCount ? Math.round(prevStats.solvedCount / prevStats.total * 100) : 0
+      }
     }
   }
 }

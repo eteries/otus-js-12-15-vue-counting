@@ -1,10 +1,10 @@
 <template>
   <div class="card">
-    <template v-if="game">
-      <game-counting :game="settings" @cancel="game=0"></game-counting>
+    <template v-if="screen">
+      <game-counting :game="game" @cancel="stop"></game-counting>
     </template>
     <template v-else>
-      <game-start @start="game=1"></game-start>
+      <game-start :stats="stats" @created="start"></game-start>
     </template>
   </div>
 </template>
@@ -20,18 +20,24 @@ export default {
   },
   data () {
     return {
-      game: 0,
-      settings: {
-        size: 2,
-        result: 4199,
-        operator: '*',
-        questions: [
-          { value: 13, userValue: '' },
-          { value: 17, userValue: '' },
-          { value: 19, userValue: '' }
-        ],
-        help: 1
+      screen: 0,
+      game: {},
+      stats: {
+        day: 1,
+        solvedCount: 0,
+        total: 0,
+        precision: 0
       }
+    }
+  },
+  methods: {
+    start (game) {
+      this.screen = 1;
+      this.game = game;
+    },
+    stop (stats) {
+      this.screen = 0;
+      this.stats = stats;
     }
   }
 }

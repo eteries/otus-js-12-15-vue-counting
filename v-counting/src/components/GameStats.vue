@@ -1,28 +1,19 @@
 <template>
-  <div class="stats">
-    <p>Добро пожаловать в {{ day }} тренировочный день.</p>
-    <p>Ваш последний результат &ndash; решено {{ solvedCount }} из {{ solvedTotal }}.</p>
-    <p>Общая точность {{ precision }}% </p>
+  <div>
+    <p>Добро пожаловать в {{ stats.day || 1 }} тренировочный день.</p>
+    <div v-if="stats.total">
+      <p>Ваш последний результат &ndash; решено {{ stats.solvedCount || 0}} из {{ stats.total || 0 }}.</p>
+      <p>Общая точность {{ stats.precision || 0 }}% </p>
+    </div>
+    <div v-else>
+      <p>Начало - половина успеха. Удачи!</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'GameStats',
-  data () {
-    return {
-      day: 7,
-      solvedCount: 10,
-      solvedTotal: 25,
-      precision: 80
-    }
-  }
+  props: ['stats']
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.stats {
-
-}
-</style>
