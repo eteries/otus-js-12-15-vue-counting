@@ -32,7 +32,8 @@ export default {
     },
     startGame (settings) {
       const game = this.createGame(settings);
-      this.$emit('created', game)
+      this.$emit('created', game);
+      this.$router.push({name: 'Game', params: {task: 1, total: game.tasks.length}});
     },
     createGame (settings) {
       const tasks = [];

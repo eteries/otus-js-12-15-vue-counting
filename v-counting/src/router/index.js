@@ -7,8 +7,18 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/game/:task/:total',
+      name: 'Game',
+      component: GameScreen
+    },
+    {
+      path: '/game',
+      name: 'GameStart',
+      component: GameScreen
+    },
+    {
       path: '/',
-      name: 'GameScreen',
+      name: 'Settings',
       component: GameScreen
     }
   ]

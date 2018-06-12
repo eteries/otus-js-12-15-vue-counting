@@ -111,12 +111,12 @@ export default {
       this.task.questions[this.currentId].userValue = input.value;
       this.game.help--;
     },
-    openFirst() {
+    openFirst () {
       const input = this.$refs.inputs[0];
       input.value = this.task.questions[0].value;
       this.task.questions[0].userValue = input.value;
     },
-    nextTask() {
+    nextTask () {
       this.currentTask++;
       if (this.currentTask >= this.game.tasks.length) return;
       this.openFirst();
@@ -133,6 +133,9 @@ export default {
       if (!this.nextTask() || timeIsUp) {
         this.gameIsOn = false;
         this.$emit('cancel', this.calcStats(this.stats));
+        this.$router.push('/');
+      } else {
+        this.$router.push({name: 'Game', params: {task: this.currentTask + 1, total: this.game.tasks.length}});
       }
     },
     calcStats (prevStats) {
@@ -148,7 +151,7 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted: function () {
     this.openFirst();
     this.$refs.inputs[1].focus();
   }

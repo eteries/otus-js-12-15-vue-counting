@@ -41,6 +41,9 @@ export default {
       this.screen = 0;
       this.stats = stats;
     }
+  },
+  mounted: function () {
+    if (!this.screen) this.$router.push('/');
   }
 }
 </script>
