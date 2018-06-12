@@ -31,35 +31,35 @@
         <div>
           <input type="checkbox" id="addition"
                  value="addition"
-                 v-model="form.tasks"
+                 v-model="form.operations"
                  @change="$emit('change', form)">
           <label for="addition">Сложение</label>
         </div>
         <div>
-          <input type="checkbox" id="substaction"
-                 value="substaction"
-                 v-model="form.tasks"
+          <input type="checkbox" id="subtraction"
+                 value="subtraction"
+                 v-model="form.operations"
                  @change="$emit('change', form)">
-          <label for="substaction">Вычитание</label>
+          <label for="subtraction">Вычитание</label>
         </div>
         <div>
           <input type="checkbox" id="multiplication"
                  value="multiplication"
-                 v-model="form.tasks"
+                 v-model="form.operations"
                  @change="$emit('change', form)">
           <label for="multiplication">Умножение</label>
         </div>
-        <div>
+        <div v-if="form.complexity > 3">
           <input type="checkbox" id="division"
                  value="division"
-                 v-model="form.tasks"
+                 v-model="form.operations"
                  @change="$emit('change', form)">
           <label for="division">Деление</label>
         </div>
-        <div>
+        <div v-if="form.complexity > 5">
           <input type="checkbox" id="power"
                  value="power"
-                 v-model="form.tasks"
+                 v-model="form.operations"
                  @change="$emit('change', form)">
           <label for="power">Возведение в степень</label>
         </div>
@@ -74,7 +74,7 @@ export default {
   data () {
     return {
       form: {
-        tasks: ['addition', 'multiplication'],
+        operations: ['addition', 'multiplication'],
         time: 7,
         complexity: 5
       }

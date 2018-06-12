@@ -24,9 +24,11 @@ export default {
       game: {},
       stats: {
         day: 1,
-        solvedCount: 0,
-        total: 0,
-        precision: 0
+        gameSolved: 0,
+        gameTried: 0,
+        totalSolved: 0,
+        totalTried: 0,
+        totalPrecision: 0
       }
     }
   },

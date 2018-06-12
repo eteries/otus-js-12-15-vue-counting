@@ -12,6 +12,7 @@
 <script>
 import GameStats from './GameStats'
 import GameSettings from './GameSettings'
+import { createTask } from '../utils/tasks'
 
 export default {
   name: 'GameStart',
@@ -34,17 +35,14 @@ export default {
       this.$emit('created', game)
     },
     createGame (settings) {
-      // ToDo: Create Game based on settings, for now it's hardcoded
+      const tasks = [];
+      for (let i = 0; i < settings.complexity; i++) {
+        tasks.push(createTask(settings.operations));
+      }
       return {
         size: 2,
-        result: 4199,
-        operator: '*',
-        questions: [
-          { value: 13, userValue: '' },
-          { value: 17, userValue: '' },
-          { value: 19, userValue: '' }
-        ],
-        help: 1,
+        tasks,
+        help: settings.complexity,
         time: settings.time,
         stats: this.stats
       }
